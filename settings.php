@@ -30,6 +30,11 @@ if ($hassiteconfig) {
 
     // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedIf
     if ($ADMIN->fulltree) {
-        // TO-DO: Define actual plugin settings page and add it to the tree - {@link https://docs.moodle.org/dev/Admin_settings}.
+        $settings->add(
+            new admin_setting_configtext(
+                'media_mediasite/basemediasiteurl',
+                new lang_string('basemediasiteurl', 'media_mediasite'),
+                new lang_string('basemediasiteurl_desc', 'media_mediasite'),
+                'webcast.massey.ac.nz', PARAM_RAW, 80));
     }
 }
