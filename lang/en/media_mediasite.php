@@ -25,4 +25,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['basemediasiteurl'] = 'Base Mediasite URL';
+$string['basemediasiteurl_desc'] = 'The base or root URL for the Mediasite server';
 $string['pluginname'] = 'Mediasite';
+$string['presentationregex'] = 'Presentation regex';
+$string['presentationregex_desc'] = 'Regex to match a Mediasite presentation URL';
+$string['presentationsubstitution'] = 'Presentation replacement';
+$string['presentationsubstitution_desc'] = 'Template for replacement content for the presentation link';
