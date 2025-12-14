@@ -55,6 +55,8 @@ class media_mediasite_plugin  extends \core_media_player_external {
 
         self::pick_video_size($width, $height);
 
+        $baseurl = get_config('media_mediasite', 'basemediasiteurl');
+
         $videoid = end($this->matches);
 
         // Template context.
@@ -64,6 +66,7 @@ class media_mediasite_plugin  extends \core_media_player_external {
             'title' => $info,
             'courseid' => $PAGE->course->id,
             'presentationid' => $videoid,
+            'baseurl' => $baseurl,
         ];
 
         return $OUTPUT->render_from_template('media_mediasite/presentation', $context);

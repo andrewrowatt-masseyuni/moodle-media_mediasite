@@ -1,0 +1,38 @@
+div.media_mediasite {
+    p {
+        position: relative;
+        width: 100%;
+        padding-bottom: 66%!important;
+    }
+    iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    ul {
+        margin: 0 0 0.5em 0!important;
+        list-style: none!important;
+        border: 1px solid #BFD2E1;
+        background-color: #f2f6f9;
+        padding: 10px 10px 10px 2.2em;
+        font-size: 0.8em;
+        font-style: normal;
+        font-weight: 300;
+
+        li {
+            line-height: 1.2;
+
+            i.fa {
+                opacity: 0.9;
+            }
+
+            a {
+                text-decoration: underline;
+            }
+        }
+    }
+}

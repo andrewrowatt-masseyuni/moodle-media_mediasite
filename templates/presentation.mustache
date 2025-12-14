@@ -24,8 +24,21 @@
     }
 }}
 <div class="media_mediasite">
-<iframe title="{{info}}" height="{{height}}" width="{{width}}"
-src="{{globals.config.wwwroot}}/mod/mediasite/content_launch.php?siteid=1&amp;course={{courseid}}&amp;coverplay=1&amp;resourceid={{presentationid}}"
-allowfullscreen="">
-</iframe>
+    <p style="position: relative; width: 100%; padding-bottom: 66% !important;">    
+        <iframe
+        title="{{info}}" height="{{height}}" width="{{width}}" 
+        src="https://{{baseurl}}/Mediasite/Play/{{presentationid}}"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen="allowfullscreen"
+        referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+    </p>
+    <ul class="fa-ul">
+    <li><i class="fa-li fa-regular fa-lightbulb"
+        aria-hidden="true"></i>If the item above doesn’t display correctly, <a
+        href="https://{{baseurl}}/Mediasite/Play/{{presentationid}}"
+        target="_blank" rel="noopener">click here to open it in a new window</a>.
+        When you have finished, close the tab and you will return to this page.</li>
+    </ul>
 </div>
