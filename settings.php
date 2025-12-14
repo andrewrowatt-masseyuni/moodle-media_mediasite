@@ -25,16 +25,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-if ($hassiteconfig) {
-    $settings = new admin_settingpage('media_mediasite_settings', new lang_string('pluginname', 'media_mediasite'));
-
-    // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedIf
-    if ($ADMIN->fulltree) {
-        $settings->add(
-            new admin_setting_configtext(
-                'media_mediasite/basemediasiteurl',
-                new lang_string('basemediasiteurl', 'media_mediasite'),
-                new lang_string('basemediasiteurl_desc', 'media_mediasite'),
-                'webcast.massey.ac.nz', PARAM_RAW, 80));
-    }
+if ($ADMIN->fulltree) {
+    $settings->add(
+        new admin_setting_configtext(
+            'media_mediasite/basemediasiteurl',
+            new lang_string('basemediasiteurl', 'media_mediasite'),
+            new lang_string('basemediasiteurl_desc', 'media_mediasite'),
+            'webcast.massey.ac.nz', PARAM_RAW, 80));
 }
