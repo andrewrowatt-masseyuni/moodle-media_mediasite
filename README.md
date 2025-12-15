@@ -1,4 +1,6 @@
-# Mediasite #
+[![Moodle Plugin CI](https://github.com/andrewrowatt-masseyuni/moodle-media_mediasite/actions/workflows/moodle-ci.yml/badge.svg)](https://github.com/andrewrowatt-masseyuni/moodle-media_mediasite/actions/workflows/moodle-ci.yml)
+
+# Mediasite Mediaplayer #
 
 TO-DO Describe the plugin shortly here.
 
