@@ -25,10 +25,18 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['authorization'] = 'Authorization header value';
+$string['authorization_desc'] = 'Value assigned to the Authorization header in the HTTP request.';
 $string['basemediasiteurl'] = 'Base Mediasite URL';
 $string['basemediasiteurl_desc'] = 'The base or root URL for the Mediasite server';
 $string['pluginname'] = 'Mediasite';
+$string['presentationisprivate'] = 'Presentation is currently private. Your students will not be able to view it.';
+$string['presentationispublic'] = 'Presentation is viewable.';
+$string['presentationnotfound'] = 'Presentation not found.  Check the presentation ID.';
 $string['presentationregex'] = 'Presentation regex';
 $string['presentationregex_desc'] = 'Regex to match a Mediasite presentation URL';
+$string['presentationstatusunknown'] = 'Error accessing the presentation.  Contact Stream Support.';
 $string['presentationsubstitution'] = 'Presentation replacement';
 $string['presentationsubstitution_desc'] = 'Template for replacement content for the presentation link';
+$string['sfapikey'] = 'API key (sfapikey)';
+$string['sfapikey_desc'] = 'Value assigned to the sfapikey header in the HTTP request.';

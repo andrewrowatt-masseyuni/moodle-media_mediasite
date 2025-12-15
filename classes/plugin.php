@@ -59,6 +59,14 @@ class media_mediasite_plugin  extends \core_media_player_external {
 
         $videoid = end($this->matches);
 
+        $private_status = \media_mediasite\util::presentation_is_private($videoid);
+
+        if ($private_status == \media_mediasite\util::PRESENTATION_IS_NOT_PRIVATE) {
+            $bootstrap_alert_class = 'success';
+        } else {
+            $bootstrap_alert_class = 'danger';
+        } 
+
         // Template context.
         $context = [
             'width' => $width,
@@ -67,6 +75,9 @@ class media_mediasite_plugin  extends \core_media_player_external {
             'courseid' => $PAGE->course->id,
             'presentationid' => $videoid,
             'baseurl' => $baseurl,
+            'bootstrap_alert_class'=> $bootstrap_alert_class,
+            'private_status' => $private_status,
+            'private_status_label' => \media_mediasite\util::get_status_label($private_status),
         ];
 
         return $OUTPUT->render_from_template('media_mediasite/presentation', $context);
@@ -80,10 +91,10 @@ class media_mediasite_plugin  extends \core_media_player_external {
         $baseurl = preg_quote(get_config('media_mediasite', 'basemediasiteurl'));
 
         // Initial part of link.
-        $start = "~^https?://$baseurl/";
+        $start = "~^https?://$baseurl";
 
         // Middle bit: presentation.
-        $middle = 'Mediasite/Play/([a-z0-9]{34})';
+        $middle = '/Play/([a-z0-9]{34})';
         return $start . $middle . \core_media_player_external::END_LINK_REGEX_PART;
     }
 

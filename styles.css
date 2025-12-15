@@ -1,20 +1,29 @@
 div.media_mediasite {
-    p {
+    div.iframe_container {
         position: relative;
         width: 100%;
         padding-bottom: 66%!important;
-    }
-    iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
+
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
     }
 
-    ul {
-        margin: 0 0 0.5em 0!important;
+    div.alert {
+        margin: 0.5em 0;
+
+        &[data-private-status="0"] {
+            display: none;
+        }
+    }
+
+    > ul {
+        margin: 0.5em 0!important;
         list-style: none!important;
         border: 1px solid #BFD2E1;
         background-color: #f2f6f9;
