@@ -1,6 +1,4 @@
 <?php
-
-use media_mediasite\util;
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,6 +14,8 @@ use media_mediasite\util;
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+use media_mediasite\util;
+
 /**
  * Class plugin
  *
@@ -23,8 +23,7 @@ use media_mediasite\util;
  * @copyright  2025 Andrew Rowatt <A.J.Rowatt@massey.ac.nz>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class media_mediasite_plugin  extends \core_media_player_external {
-
+class media_mediasite_plugin extends \core_media_player_external {
     /**
      * Link is a presentation i.e., single video
      * @var int
@@ -85,19 +84,17 @@ class media_mediasite_plugin  extends \core_media_player_external {
 
         $bootstrapalertclass = 'danger';
         $privatestatus = -1;
-        $private_status_label = '';
+        $privatestatuslabel = '';
 
         if (has_capability('moodle/course:manageactivities', $PAGE->context)) {
             $privatestatus = util::presentation_is_private($videoid);
 
-            $private_status_label = util::get_status_label($privatestatus);
+            $privatestatuslabel = util::get_status_label($privatestatus);
 
             if ($privatestatus == util::PRESENTATION_IS_NOT_PRIVATE) {
                 $bootstrapalertclass = 'success';
             }
         }
-
-
 
         // Template context.
         $context = [
@@ -109,7 +106,7 @@ class media_mediasite_plugin  extends \core_media_player_external {
             'baseurl' => $baseurl,
             'bootstrap_alert_class' => $bootstrapalertclass,
             'private_status' => $privatestatus,
-            'private_status_label' => $private_status_label,
+            'private_status_label' => $privatestatuslabel,
         ];
 
         return $OUTPUT->render_from_template('media_mediasite/presentation', $context);

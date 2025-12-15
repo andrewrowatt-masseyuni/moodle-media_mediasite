@@ -24,7 +24,6 @@ namespace media_mediasite;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class util {
-
     /**
      * API call successful and presentation is not private
      * @var int
