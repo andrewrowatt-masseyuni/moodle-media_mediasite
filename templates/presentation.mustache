@@ -21,12 +21,20 @@
 
     Example context (json):
     {
+        "title": "Stream Overview",
+        "width": 640,
+        "height": 360,
+        "baseurl": "https://webcast.massey.ac.nz/Mediasite",
+        "presentationid": "6ddee47a063d472891ccef8fbc7464f11d",
+        "bootstrap_alert_class": "success",
+        "private_status": 0,
+        "private_status_label": "Presentation is viewable.",
     }
 }}
 <div class="media_mediasite">
     <div class="iframe_container">    
         <iframe
-        title="{{info}}" height="{{height}}" width="{{width}}" 
+        title="{{title}}" height="{{height}}" width="{{width}}" 
         src="https://{{baseurl}}/Play/{{presentationid}}"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
