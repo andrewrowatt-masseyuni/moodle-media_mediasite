@@ -34,7 +34,9 @@
         referrerpolicy="strict-origin-when-cross-origin">
         </iframe>
     </div>
+    {{#private_status_label}}
     <div class="alert alert-{{bootstrap_alert_class}} media_mediasite_private_status" data-private-status="{{private_status}}">{{private_status_label}}</div>
+    {{/private_status_label}}
     <ul class="fa-ul">
     <li><i class="fa-li fa-regular fa-lightbulb"
         aria-hidden="true"></i>If the item above doesn’t display correctly, <a

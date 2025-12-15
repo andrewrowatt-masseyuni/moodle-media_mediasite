@@ -3,6 +3,11 @@ div.media_mediasite {
         position: relative;
         width: 100%;
         padding-bottom: 66%!important;
+        background-color: #eee;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTUwJyBoZWlnaHQ9JzE1MCcgdmlld0JveD0nMCAwIDE1MCAxNTAnIGZpbGw9J25vbmUnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+IDxjaXJjbGUgY3g9Jzc0Ljk5OTUnIGN5PSc3NScgcj0nNjIuNScgZmlsbD0nI2ZmZjEnLz4gPHBhdGggZD0nTTYwIDEwOC43NUwxMDUgNzVMNjAgNDEuMjVWMTA4Ljc1Wk03NSAwQzMzLjYgMCAwIDMzLjYgMCA3NUMwIDExNi40IDMzLjYgMTUwIDc1IDE1MEMxMTYuNCAxNTAgMTUwIDExNi40IDE1MCA3NUMxNTAgMzMuNiAxMTYuNCAwIDc1IDBaTTc1IDEzNUM0MS45MjUgMTM1IDE1IDEwOC4wNzUgMTUgNzVDMTUgNDEuOTI1IDQxLjkyNSAxNSA3NSAxNUMxMDguMDc1IDE1IDEzNSA0MS45MjUgMTM1IDc1QzEzNSAxMDguMDc1IDEwOC4wNzUgMTM1IDc1IDEzNVonIGZpbGw9JyNFRDhCMDAxMScvPiA8L3N2Zz4=");
+
+        background-repeat: no-repeat;
+        background-position: center;
 
         iframe {
             position: absolute;

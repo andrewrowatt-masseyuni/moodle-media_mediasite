@@ -25,15 +25,36 @@ namespace media_mediasite;
  */
 class util {
 
-    
-    
+    /**
+     * API call successful and presentation is not private
+     * @var int
+     */
     const PRESENTATION_IS_NOT_PRIVATE = 0;
-    const PRESENTATION_IS_PRIVATE = 1;
-    const API_ERROR = 2;
-    const PRESENTATION_NOT_FOUND = 3;
-    
 
-    static function presentation_is_private(string $presentationid): int {
+    /**
+     * API call successful and presentation is private
+     * @var int
+     */
+    const PRESENTATION_IS_PRIVATE = 1;
+
+    /**
+     * API call not successful. Reason unknown
+     * @var int
+     */
+    const API_ERROR = 2;
+
+    /**
+     * API call successful and presentation not found
+     * @var int
+     */
+    const PRESENTATION_NOT_FOUND = 3;
+
+    /**
+     * Queries the API and returns the status of the presentation or if there was an API error
+     * @param string $presentationid
+     * @return int
+     */
+    public static function presentation_is_private(string $presentationid): int {
         $baseurl = get_config('media_mediasite', 'basemediasiteurl');
         $endpoint = 'https://' . $baseurl . '/api/v1/Presentations(\'' . urlencode($presentationid) . '\')?$select=full';
         $baseurl = get_config('media_mediasite', 'basemediasiteurl');
@@ -58,32 +79,34 @@ class util {
         $curlerrorcode = curl_error($ch);
         curl_close($ch);
 
-        // var_dump($responseraw);
-        // var_dump($httpcode);
-
         if ($response) {
             // ... we have a JSON response from Assyst
             switch ($httpcode) {
                 case 200:
-                    if($response->Private) {
+                    if ($response->Private) {
                         return self::PRESENTATION_IS_PRIVATE;
                     } else {
                         return self::PRESENTATION_IS_NOT_PRIVATE;
                     }
                 case 401:
-                    // Auth issue
+                    // Auth issue.
                     return self::API_ERROR;
             }
         } else {
             // ... no JSON response from Mediasite
             return self::API_ERROR;
         }
-        
+
         return self::API_ERROR;
     }
 
-    static function get_status_label(bool $isprivate): string {
-        switch ($isprivate) {
+    /**
+     * A human-friendly label for the presentation private status
+     * @param int $privatestatus
+     * @return string
+     */
+    public static function get_status_label(int $privatestatus): string {
+        switch ($privatestatus) {
             case self::PRESENTATION_IS_PRIVATE:
                 return get_string('presentationisprivate', 'media_mediasite');
             case self::PRESENTATION_IS_NOT_PRIVATE:

@@ -1,4 +1,6 @@
 <?php
+
+use media_mediasite\util;
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -23,10 +25,24 @@
  */
 class media_mediasite_plugin  extends \core_media_player_external {
 
+    /**
+     * Link is a presentation i.e., single video
+     * @var int
+     */
     const TYPE_PRESENTATION = 1;
-    const TYPE_CHANNEL = 2;
-    protected $type;
 
+    /**
+     * Holds the type of media matched (currently only presentation, but could be extended to channel)
+     * @var int
+     */
+    protected int $type;
+
+    /**
+     * Moodle core method to check URLs supported by this player
+     * @param array $urls
+     * @param array $options
+     * @return array
+     */
     public function list_supported_urls(array $urls, array $options = []) {
         // These only work with a SINGLE url (there is no fallback).
         if (count($urls) == 1) {
@@ -34,21 +50,29 @@ class media_mediasite_plugin  extends \core_media_player_external {
 
             // Check against regex.
             if (preg_match($this->get_regex_presentation(), $url->out(false), $this->matches)) {
-                $type = self::TYPE_PRESENTATION;
+                $this->type = self::TYPE_PRESENTATION;
                 return [$url];
             }
         }
 
         return [];
     }
+
     /**
-     * @inheritDoc
+     * Moodle core method to generate the embed code for the media.
+     *
+     * @param moodle_url $url
+     * @param mixed $name
+     * @param mixed $width
+     * @param mixed $height
+     * @param mixed $options
+     * @return bool|string
      */
     protected function embed_external(\moodle_url $url, $name, $width, $height, $options) {
         global $OUTPUT, $PAGE;
 
         $info = trim($name ?? '');
-        if (empty($info) or strpos($info, 'http') === 0) {
+        if (empty($info) || strpos($info, 'http') === 0) {
             $info = get_string('pluginname', 'media_mediasite');
         }
         $info = s($info);
@@ -59,13 +83,21 @@ class media_mediasite_plugin  extends \core_media_player_external {
 
         $videoid = end($this->matches);
 
-        $private_status = \media_mediasite\util::presentation_is_private($videoid);
+        $bootstrapalertclass = 'danger';
+        $privatestatus = -1;
+        $private_status_label = '';
 
-        if ($private_status == \media_mediasite\util::PRESENTATION_IS_NOT_PRIVATE) {
-            $bootstrap_alert_class = 'success';
-        } else {
-            $bootstrap_alert_class = 'danger';
-        } 
+        if (has_capability('moodle/course:manageactivities', $PAGE->context)) {
+            $privatestatus = util::presentation_is_private($videoid);
+
+            $private_status_label = util::get_status_label($privatestatus);
+
+            if ($privatestatus == util::PRESENTATION_IS_NOT_PRIVATE) {
+                $bootstrapalertclass = 'success';
+            }
+        }
+
+
 
         // Template context.
         $context = [
@@ -75,9 +107,9 @@ class media_mediasite_plugin  extends \core_media_player_external {
             'courseid' => $PAGE->course->id,
             'presentationid' => $videoid,
             'baseurl' => $baseurl,
-            'bootstrap_alert_class'=> $bootstrap_alert_class,
-            'private_status' => $private_status,
-            'private_status_label' => \media_mediasite\util::get_status_label($private_status),
+            'bootstrap_alert_class' => $bootstrapalertclass,
+            'private_status' => $privatestatus,
+            'private_status_label' => $private_status_label,
         ];
 
         return $OUTPUT->render_from_template('media_mediasite/presentation', $context);
@@ -98,6 +130,10 @@ class media_mediasite_plugin  extends \core_media_player_external {
         return $start . $middle . \core_media_player_external::END_LINK_REGEX_PART;
     }
 
+    /**
+     * Moodle core method to get the basic identifiers for embedded media for this player
+     * @return array
+     */
     public function get_embeddable_markers() {
         $baseurl = get_config('media_mediasite', 'basemediasiteurl');
 
