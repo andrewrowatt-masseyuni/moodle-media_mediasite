@@ -77,6 +77,6 @@ final class player_test extends \advanced_testcase {
         $this->assertMatchesRegularExpression('~</iframe>~', $content);
         $this->assertMatchesRegularExpression('~width="' . $CFG->media_default_width . '" height="' .
             $CFG->media_default_height . '"~', $content);
-        $this->assertMatchesRegularExpression('~Presentation is currently private~',$content);
+        $this->assertMatchesRegularExpression('~Presentation is currently private~', $content);
     }
 }
