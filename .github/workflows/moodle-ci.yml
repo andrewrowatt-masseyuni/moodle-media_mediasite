@@ -96,6 +96,11 @@ jobs:
       - name: PHPUnit tests
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci phpunit --fail-on-warning
+        env:
+          BASEMEDIASITEURL: ${{ secrets.BASEMEDIASITEURL }}
+          AUTHORIZATION: ${{ secrets.AUTHORIZATION }}
+          SFAPIKEY: ${{ secrets.SFAPIKEY }}
+          PHPUNIT_ENVIRONMENT: ${{ secrets.PHPUNIT_ENVIRONMENT }}
 
       - name: PHPUnit tests - Core privacy (AJR)
         if: ${{ !cancelled() }}

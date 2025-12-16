@@ -38,8 +38,13 @@ final class player_test extends \advanced_testcase {
 
         // Consistent initial setup: all players disabled.
         \core\plugininfo\media::set_enabled_plugins('mediasite');
+        $basemediasiteurl = getenv("BASEMEDIASITEURL");
+        $authorization = getenv("AUTHORIZATION");
+        $sfapikey = getenv("SFAPIKEY");
 
-        set_config('basemediasiteurl', 'webcast.massey.ac.nz/Mediasite', 'media_mediasite');
+        set_config('basemediasiteurl', $basemediasiteurl, 'media_mediasite');
+        set_config('authorization', $authorization, 'media_mediasite');
+        set_config('sfapikey', $sfapikey, 'media_mediasite');
     }
 
     /**
@@ -61,6 +66,9 @@ final class player_test extends \advanced_testcase {
      */
     public function test_embed_link(): void {
         global $CFG;
+
+        $this->setAdminUser();
+
         $url = new \moodle_url('https://webcast.massey.ac.nz/Mediasite/Play/49ea8f3058be4b89be35c5d11e1866901d');
         $text = \html_writer::link($url, 'Lorem ipsum dolor sit amet');
         $content = format_text($text, FORMAT_HTML);
@@ -69,5 +77,6 @@ final class player_test extends \advanced_testcase {
         $this->assertMatchesRegularExpression('~</iframe>~', $content);
         $this->assertMatchesRegularExpression('~width="' . $CFG->media_default_width . '" height="' .
             $CFG->media_default_height . '"~', $content);
+        $this->assertMatchesRegularExpression('~Presentation is currently private~',$content);
     }
 }
