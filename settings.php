@@ -30,8 +30,8 @@ if ($ADMIN->fulltree) {
         'media_mediasite/basemediasiteurl',
         new lang_string('basemediasiteurl', 'media_mediasite'),
         new lang_string('basemediasiteurl_desc', 'media_mediasite'),
-        'webcast.massey.ac.nz',
-        PARAM_RAW,
+        'domain.org/mediasite',
+        PARAM_TEXT,
         80
     ));
 
@@ -39,7 +39,7 @@ if ($ADMIN->fulltree) {
         'media_mediasite/authorization',
         new lang_string('authorization', 'media_mediasite'),
         new lang_string('authorization_desc', 'media_mediasite'),
-        'code',
+        '',
         PARAM_RAW,
         80
     ));
@@ -48,7 +48,7 @@ if ($ADMIN->fulltree) {
         'media_mediasite/sfapikey',
         new lang_string('sfapikey', 'media_mediasite'),
         new lang_string('sfapikey_desc', 'media_mediasite'),
-        '428828d7-38a8-46c9-9fb0-a8737dd1dab3',
+        '',
         PARAM_RAW,
         80
     ));
