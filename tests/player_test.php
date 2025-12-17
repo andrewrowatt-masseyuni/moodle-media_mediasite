@@ -78,10 +78,6 @@ final class player_test extends \advanced_testcase {
     public function test_embed_link(): void {
         global $CFG;
 
-        if (!$this->hassecrets) {
-            $this->markTestSkipped('Authorization or SFAPIKEY environment variables not set.');
-        }
-
         $this->setAdminUser();
         
         $url = new \moodle_url('https://webcast.massey.ac.nz/Mediasite/Play/fb1b6a3187754c17af1b399e734a22b51d');
