@@ -16,6 +16,8 @@
 
 namespace media_mediasite;
 
+use curl;
+
 /**
  * Class helper
  *
@@ -60,43 +62,33 @@ class util {
         $authorization = get_config('media_mediasite', 'authorization');
         $sfapikey = get_config('media_mediasite', 'sfapikey');
 
-        $ch = curl_init($endpoint);
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json',
-            "Authorization: $authorization",
-            'Accept: application/json',
-            "sfapikey: $sfapikey",
-            'User-Agent: curl',
+        $ch = new curl();
+        $ch->setHeader([
+                'Content-Type: application/json',
+                "Authorization: $authorization",
+                'Accept: application/json',
+                "sfapikey: $sfapikey",
+                'User-Agent: curl',
         ]);
 
-        $responseraw = curl_exec($ch);
+        $responseraw = $ch->get($endpoint);
+
+        if ($ch->get_errno() !== 0) {
+            return self::API_ERROR;
+        }
+
         $response = json_decode($responseraw);
 
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $curlerrorcode = curl_error($ch);
-        curl_close($ch);
-
         if ($response) {
-            // ... we have a JSON response from Assyst
-            switch ($httpcode) {
-                case 200:
-                    if ($response->Private) {
-                        return self::PRESENTATION_IS_PRIVATE;
-                    } else {
-                        return self::PRESENTATION_IS_NOT_PRIVATE;
-                    }
-                case 401:
-                    // Auth issue.
-                    return self::API_ERROR;
+            if ($response->Private) {
+                return self::PRESENTATION_IS_PRIVATE;
+            } else {
+                return self::PRESENTATION_IS_NOT_PRIVATE;
             }
         } else {
             // ... no JSON response from Mediasite
             return self::API_ERROR;
         }
-
-        return self::API_ERROR;
     }
 
     /**
