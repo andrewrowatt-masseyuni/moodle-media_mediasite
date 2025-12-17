@@ -77,6 +77,12 @@ class util {
             return self::API_ERROR;
         }
 
+        $info = $ch->get_info();
+
+        if ($info['http_code'] != 200) {
+            return self::API_ERROR;
+        }
+
         $response = json_decode($responseraw);
 
         if ($response) {

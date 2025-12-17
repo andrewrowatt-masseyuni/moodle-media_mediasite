@@ -26,6 +26,13 @@ namespace media_mediasite;
  */
 final class player_test extends \advanced_testcase {
     /**
+     * Holds whether authorization and sfapikey are set.
+     * If unset, tests requiring them are skipped.
+     *
+     * @var bool
+     */
+    private bool $hassecrets;
+    /**
      * Pre-test setup. Preserves $CFG.
      *
      * @covers \media_mediasite
@@ -38,13 +45,17 @@ final class player_test extends \advanced_testcase {
 
         // Consistent initial setup: all players disabled.
         \core\plugininfo\media::set_enabled_plugins('mediasite');
-        $basemediasiteurl = getenv("BASEMEDIASITEURL");
         $authorization = getenv("AUTHORIZATION");
         $sfapikey = getenv("SFAPIKEY");
+        $this->hassecrets = !empty($authorization) && !empty($sfapikey);
 
-        set_config('basemediasiteurl', $basemediasiteurl, 'media_mediasite');
-        set_config('authorization', $authorization, 'media_mediasite');
-        set_config('sfapikey', $sfapikey, 'media_mediasite');
+        set_config('basemediasiteurl', 'webcast.massey.ac.nz/mediasite', 'media_mediasite');
+
+        /* Secrets are set locally or on github, but are not available on gitlab */
+        if ($this->hassecrets) {
+            set_config('authorization', $authorization, 'media_mediasite');
+            set_config('sfapikey', $sfapikey, 'media_mediasite');
+        }
     }
 
     /**
@@ -67,6 +78,10 @@ final class player_test extends \advanced_testcase {
     public function test_embed_link(): void {
         global $CFG;
 
+        if (!$this->hassecrets) {
+            $this->markTestSkipped('Authorization or SFAPIKEY environment variables not set.');
+        }
+
         $this->setAdminUser();
 
         $url = new \moodle_url('https://webcast.massey.ac.nz/Mediasite/Play/49ea8f3058be4b89be35c5d11e1866901d');
@@ -77,7 +92,19 @@ final class player_test extends \advanced_testcase {
         $this->assertMatchesRegularExpression('~</iframe>~', $content);
         $this->assertMatchesRegularExpression('~width="' . $CFG->media_default_width . '" height="' .
             $CFG->media_default_height . '"~', $content);
-        $this->assertMatchesRegularExpression('~Presentation is currently private~', $content);
+    }
+
+    /**
+     * Test that mediaplugin filter replaces a link to the supported file with media tag.
+     *
+     * filter_mediaplugin is enabled by default.
+     *
+     * @covers \media_mediasite
+     */
+    public function test_embed_link_with_private_video(): void {
+        global $CFG;
+
+        $this->setAdminUser();
 
         $url = new \moodle_url('https://webcast.massey.ac.nz/Mediasite/Play/fb1b6a3187754c17af1b399e734a22b51d');
         $text = \html_writer::link($url, 'Lorem ipsum dolor sit amet');
