@@ -79,7 +79,7 @@ final class player_test extends \advanced_testcase {
         global $CFG;
 
         $this->setAdminUser();
-        
+
         $url = new \moodle_url('https://webcast.massey.ac.nz/Mediasite/Play/fb1b6a3187754c17af1b399e734a22b51d');
         $text = \html_writer::link($url, 'Lorem ipsum dolor sit amet');
         $content = format_text($text, FORMAT_HTML);
@@ -110,7 +110,7 @@ final class player_test extends \advanced_testcase {
         $this->assertMatchesRegularExpression('~</iframe>~', $content);
         $this->assertMatchesRegularExpression('~width="' . $CFG->media_default_width . '" height="' .
             $CFG->media_default_height . '"~', $content);
-        
+
         if ($this->hassecrets) {
             $this->assertMatchesRegularExpression('~Presentation is currently private~', $content);
         }
