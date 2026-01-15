@@ -1,15 +1,14 @@
-[![Moodle Plugin CI](https://github.com/andrewrowatt-masseyuni/moodle-media_mediasite/actions/workflows/moodle-ci.yml/badge.svg)](https://github.com/andrewrowatt-masseyuni/moodle-media_mediasite/actions/workflows/moodle-ci.yml)
+![Moodle Plugin CI](https://github.com/andrewrowatt-masseyuni/moodle-media_mediasite/actions/workflows/moodle-ci.yml/badge.svg)
+
 # Mediasite Media Player
 
-A Moodle media player plugin that enables embedding Mediasite videos directly in course content using standard Mediasite presentation URLs.
+This plugin automatically recognises Mediasite presentation URLs and converts them into an embedded video.
 
 ## Description
 
-The Mediasite Media Player plugin provides seamless integration between Moodle and Mediasite video content. This media player plugin automatically recognizes Mediasite presentation URLs and embeds them as playable videos directly within Moodle course content. When instructors or content creators insert Mediasite links into their courses, the plugin automatically converts these URLs into embedded video players, providing a native viewing experience without requiring students to navigate away from the Moodle environment.
+When teachers insert Mediasite links into their courses, the plugin automatically converts these URLs into HTML iframe embed code, providing a native viewing experience without requiring students to navigate away from Moodle. In case of SSO or other HTML iframe security issues, a direct link to the video is displayed below the video.
 
-For instructors with course management capabilities, the plugin also displays the privacy status of embedded videos, warning if a video is set to private and won't be viewable by students.
-
-**Note**: This plugin requires access to a Mediasite server. You will need to configure the base Mediasite URL and API credentials in the plugin settings.
+For users with the *Teacher* role, the plugin also gives a warning if the video is marked as “Private” in Mediasite. This is an optional feature that requires access to the Mediasite API.
 
 ## Installing via uploaded ZIP file
 
@@ -19,7 +18,7 @@ For instructors with course management capabilities, the plugin also displays th
 
 ## Installing manually
 
-The plugin can be also installed by putting the contents of this directory to
+The plugin can also be installed by putting the contents of this directory into
 
 ```
 {your/moodle/dirroot}/media/player/mediasite
