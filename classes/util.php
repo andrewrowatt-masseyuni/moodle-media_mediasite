@@ -88,11 +88,26 @@ class util {
     }
 
     /**
+     * Checks whether the API is enabled by verifying that authorization and sfapikey are configured.
+     * @return bool
+     */
+    public static function api_enabled(): bool {
+        $authorization = get_config('media_mediasite', 'authorization');
+        $sfapikey = get_config('media_mediasite', 'sfapikey');
+
+        return !empty($authorization) && !empty($sfapikey);
+    }
+
+    /**
      * Queries the API and returns the status of the presentation or if there was an API error
      * @param string $presentationid
      * @return int
      */
     public static function presentation_is_private(string $presentationid): int {
+        if (!self::api_enabled()) {
+            throw new \moodle_exception('API is not enabled. Check authorization and sfapikey settings.', 'media_mediasite');
+        }
+
         $response = self::api_request('Presentations(\'' . urlencode($presentationid) . '\')?$select=full');
 
         if (!$response) {
@@ -108,6 +123,10 @@ class util {
      * @return string The authorization ticket string, or empty string on failure.
      */
     public static function get_authorization_ticket(string $presentationid): string {
+        if (!self::api_enabled()) {
+            throw new \moodle_exception('API is not enabled. Check authorization and sfapikey settings.', 'media_mediasite');
+        }
+
         global $USER;
 
         $body = json_encode([

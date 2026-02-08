@@ -31,7 +31,7 @@ $presentationid = required_param('id', PARAM_ALPHANUMEXT);
 $baseurl = get_config('media_mediasite', 'basemediasiteurl');
 $playurl = 'https://' . $baseurl . '/play/' . $presentationid;
 
-if (get_config('media_mediasite', 'useauthorizationtickets')) {
+if (media_mediasite\util::api_enabled() && get_config('media_mediasite', 'useauthorizationtickets')) {
     $ticketid = media_mediasite\util::get_authorization_ticket($presentationid);
     if ($ticketid) {
         $playurl .= '?authTicket=' . $ticketid;

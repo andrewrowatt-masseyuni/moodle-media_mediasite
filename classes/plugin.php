@@ -86,7 +86,7 @@ class media_mediasite_plugin extends \core_media_player_external {
         $privatestatus = -1;
         $privatestatuslabel = '';
 
-        if (has_capability('moodle/course:manageactivities', $PAGE->context)) {
+        if (util::api_enabled() && has_capability('moodle/course:manageactivities', $PAGE->context)) {
             $privatestatus = util::presentation_is_private($videoid);
 
             $privatestatuslabel = util::get_status_label($privatestatus);
@@ -96,7 +96,7 @@ class media_mediasite_plugin extends \core_media_player_external {
             }
         }
 
-        $useauthorizationtickets = get_config('media_mediasite', 'useauthorizationtickets');
+        $useauthorizationtickets = util::api_enabled() && get_config('media_mediasite', 'useauthorizationtickets');
 
         // Template context.
         $context = [
