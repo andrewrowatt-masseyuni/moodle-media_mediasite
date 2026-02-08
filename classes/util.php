@@ -51,14 +51,15 @@ class util {
     const PRESENTATION_NOT_FOUND = 3;
 
     /**
-     * Queries the API and returns the status of the presentation or if there was an API error
-     * @param string $presentationid
-     * @return int
+     * Makes an authenticated request to the Mediasite API.
+     * @param string $path The API path (appended to /api/v1/).
+     * @param string $method The HTTP method ('get' or 'post').
+     * @param string|null $body The request body for POST requests.
+     * @return object|null The decoded JSON response, or null on failure.
      */
-    public static function presentation_is_private(string $presentationid): int {
+    private static function api_request(string $path, string $method = 'get', ?string $body = null): ?object {
         $baseurl = get_config('media_mediasite', 'basemediasiteurl');
-        $endpoint = 'https://' . $baseurl . '/api/v1/Presentations(\'' . urlencode($presentationid) . '\')?$select=full';
-        $baseurl = get_config('media_mediasite', 'basemediasiteurl');
+        $endpoint = 'https://' . $baseurl . '/api/v1/' . $path;
         $authorization = get_config('media_mediasite', 'authorization');
         $sfapikey = get_config('media_mediasite', 'sfapikey');
 
@@ -71,30 +72,53 @@ class util {
                 'User-Agent: curl',
         ]);
 
-        $responseraw = $ch->get($endpoint);
+        $responseraw = ($method === 'post') ? $ch->post($endpoint, $body) : $ch->get($endpoint);
 
         if ($ch->get_errno() !== 0) {
-            return self::API_ERROR;
+            return null;
         }
 
         $info = $ch->get_info();
 
         if ($info['http_code'] != 200) {
+            return null;
+        }
+
+        return json_decode($responseraw) ?: null;
+    }
+
+    /**
+     * Queries the API and returns the status of the presentation or if there was an API error
+     * @param string $presentationid
+     * @return int
+     */
+    public static function presentation_is_private(string $presentationid): int {
+        $response = self::api_request('Presentations(\'' . urlencode($presentationid) . '\')?$select=full');
+
+        if (!$response) {
             return self::API_ERROR;
         }
 
-        $response = json_decode($responseraw);
+        return $response->Private ? self::PRESENTATION_IS_PRIVATE : self::PRESENTATION_IS_NOT_PRIVATE;
+    }
 
-        if ($response) {
-            if ($response->Private) {
-                return self::PRESENTATION_IS_PRIVATE;
-            } else {
-                return self::PRESENTATION_IS_NOT_PRIVATE;
-            }
-        } else {
-            // ... no JSON response from Mediasite
-            return self::API_ERROR;
-        }
+    /**
+     * Requests an authorization ticket from the Mediasite API for the given presentation.
+     * @param string $presentationid
+     * @return string The authorization ticket string, or empty string on failure.
+     */
+    public static function get_authorization_ticket(string $presentationid): string {
+        global $USER;
+
+        $body = json_encode([
+            'ResourceId' => $presentationid,
+            'Username' => $USER->username,
+            'MinutesToLive' => '300',
+        ]);
+
+        $response = self::api_request('AuthorizationTickets', 'post', $body);
+
+        return $response->TicketId ?? '';
     }
 
     /**

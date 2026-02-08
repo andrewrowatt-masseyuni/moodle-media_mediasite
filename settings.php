@@ -52,4 +52,11 @@ if ($ADMIN->fulltree) {
         PARAM_RAW,
         80
     ));
+
+    $settings->add(new admin_setting_configcheckbox(
+        'media_mediasite/useauthorizationtickets',
+        new lang_string('useauthorizationtickets', 'media_mediasite'),
+        new lang_string('useauthorizationtickets_desc', 'media_mediasite'),
+        1
+    ));
 }

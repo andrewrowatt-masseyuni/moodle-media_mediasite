@@ -28,14 +28,16 @@
         "presentationid": "6ddee47a063d472891ccef8fbc7464f11d",
         "bootstrap_alert_class": "success",
         "private_status": 0,
-        "private_status_label": "Presentation is viewable."
+        "private_status_label": "Presentation is viewable.",
+        "use_authorization_tickets": 1
     }
 }}
 <div class="media_mediasite">
     <div class="iframe_container">    
         <iframe
         title="{{title}}" width="{{width}}" height="{{height}}"
-        src="https://{{baseurl}}/Play/{{presentationid}}"
+        {{#use_authorization_tickets}}src="/media/player/mediasite/play.php?id={{presentationid}}"{{/use_authorization_tickets}}
+        {{^use_authorization_tickets}}src="https://{{baseurl}}/Play/{{presentationid}}"{{/use_authorization_tickets}}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen="allowfullscreen"
         referrerpolicy="strict-origin-when-cross-origin">
