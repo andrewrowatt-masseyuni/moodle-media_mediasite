@@ -98,6 +98,55 @@ class util {
     }
 
     /**
+     * Requests an authorization ticket from the Mediasite API for the given presentation.
+     * @param string $presentationid
+     * @return string The authorization ticket string, or empty string on failure.
+     */
+    public static function get_authorization_ticket(string $presentationid): string {
+        global $USER;
+
+        $baseurl = get_config('media_mediasite', 'basemediasiteurl');
+        $endpoint = 'https://' . $baseurl . '/api/v1/AuthorizationTickets';
+        $authorization = get_config('media_mediasite', 'authorization');
+        $sfapikey = get_config('media_mediasite', 'sfapikey');
+
+        $ch = new curl();
+        $ch->setHeader([
+                'Content-Type: application/json',
+                "Authorization: $authorization",
+                'Accept: application/json',
+                "sfapikey: $sfapikey",
+                'User-Agent: curl',
+        ]);
+
+        $body = json_encode([
+            'ResourceId' => $presentationid,
+            'Username' => $USER->username,
+            'MinutesToLive' => '300',
+        ]);
+
+        $responseraw = $ch->post($endpoint, $body);
+
+        if ($ch->get_errno() !== 0) {
+            return '';
+        }
+
+        $info = $ch->get_info();
+
+        if ($info['http_code'] != 200) {
+            return '';
+        }
+
+        $response = json_decode($responseraw);
+
+        if ($response) {
+            return $response->TicketId ?? '';
+        }
+
+        return '';
+    }
+
+    /**
      * A human-friendly label for the presentation private status
      * @param int $privatestatus
      * @return string

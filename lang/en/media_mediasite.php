@@ -41,3 +41,5 @@ $string['presentationsubstitution_desc'] = 'Template for replacement content for
 $string['privacy:metadata'] = 'This plugin does not store any data at all.';
 $string['sfapikey'] = 'API key (sfapikey)';
 $string['sfapikey_desc'] = 'Value assigned to the sfapikey header in the HTTP request.';
+$string['useauthorizationtickets'] = 'Use authorization tickets for playback';
+$string['useauthorizationtickets_desc'] = 'When enabled, authorization tickets are used to authenticate users for presentation playback.';
