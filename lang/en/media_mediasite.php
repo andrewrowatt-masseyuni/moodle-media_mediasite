@@ -38,6 +38,7 @@ $string['presentationregex_desc'] = 'Regex to match a Mediasite presentation URL
 $string['presentationstatusunknown'] = 'Error accessing the presentation.  Contact Stream Support.';
 $string['presentationsubstitution'] = 'Presentation replacement';
 $string['presentationsubstitution_desc'] = 'Template for replacement content for the presentation link';
+$string['openinnewwindow'] = 'If the item above doesn\'t display correctly, <a href="{$a}" target="_blank" rel="noopener">click here to open it in a new window</a>. When you have finished, close the tab and you will return to this page.';
 $string['privacy:metadata'] = 'This plugin does not store any data at all.';
 $string['sfapikey'] = 'API key (sfapikey)';
 $string['sfapikey_desc'] = 'Value assigned to the sfapikey header in the HTTP request.';
