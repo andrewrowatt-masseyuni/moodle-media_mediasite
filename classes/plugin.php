@@ -96,6 +96,8 @@ class media_mediasite_plugin extends \core_media_player_external {
             }
         }
 
+        $useauthorizationtickets = get_config('media_mediasite', 'useauthorizationtickets');
+
         // Template context.
         $context = [
             'width' => $width,
@@ -107,6 +109,7 @@ class media_mediasite_plugin extends \core_media_player_external {
             'bootstrap_alert_class' => $bootstrapalertclass,
             'private_status' => $privatestatus,
             'private_status_label' => $privatestatuslabel,
+            'use_authorization_tickets' => $useauthorizationtickets,
         ];
 
         return $OUTPUT->render_from_template('media_mediasite/presentation', $context);
